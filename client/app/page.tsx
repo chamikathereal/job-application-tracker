@@ -1,13 +1,16 @@
 // client/app/page.tsx
 "use client";
 import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 import api from "../lib/axios";
 import { JobApplication } from "../types";
 import JobCard from "../components/JobCard";
 import Navbar from "../components/Navbar";
 import JobForm from "../components/JobForm";
+import Footer from "../components/Footer"; 
 
 export default function Home() {
+  const router = useRouter();
   const [jobs, setJobs] = useState<JobApplication[]>([]);
   const [loading, setLoading] = useState(true);
   
@@ -19,8 +22,13 @@ export default function Home() {
     try {
       const res = await api.get("/jobs");
       setJobs(res.data);
-    } catch (err) {
+    } catch (err: any) { // 3️⃣ Handle the Error
       console.error(err);
+      
+      // If server says "403 Forbidden" or "401 Unauthorized"
+      if (err.response && (err.response.status === 403 || err.response.status === 401)) {
+        router.push("/login"); // 👋 Kick user to Login page
+      }
     } finally {
       setLoading(false);
     }
@@ -59,9 +67,12 @@ export default function Home() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    // 1️⃣ Added 'flex flex-col' so the footer pushes to the bottom
+    <div className="min-h-screen bg-gray-50 flex flex-col">
       <Navbar />
-      <main className="max-w-5xl mx-auto px-6 py-10">
+      
+      {/* 2️⃣ Added 'flex-grow' and 'w-full' to take up available space */}
+      <main className="max-w-5xl mx-auto px-6 py-10 flex-grow w-full">
         
         <div className="flex justify-between items-center mb-8">
           <h1 className="text-3xl font-bold text-gray-900">My Applications</h1>
@@ -100,6 +111,9 @@ export default function Home() {
           </div>
         )}
       </main>
+
+      {/* 3️⃣ Add the Footer here at the bottom */}
+      <Footer />
     </div>
   );
 }
