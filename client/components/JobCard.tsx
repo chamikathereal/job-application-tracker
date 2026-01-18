@@ -4,10 +4,11 @@ import { JobApplication } from "../types";
 interface JobCardProps {
   job: JobApplication;
   onDelete: (id: number) => void;
+  onEdit: (job: JobApplication) => void; // New Prop!
 }
 
-export default function JobCard({ job, onDelete }: JobCardProps) {
-  const statusColors = {
+export default function JobCard({ job, onDelete, onEdit }: JobCardProps) {
+  const statusColors: any = {
     Applied: "bg-gray-100 text-gray-800",
     Interviewing: "bg-blue-100 text-blue-800",
     Rejected: "bg-red-100 text-red-800",
@@ -25,16 +26,25 @@ export default function JobCard({ job, onDelete }: JobCardProps) {
           {job.status}
         </span>
       </div>
-      <div className="flex justify-between items-center text-sm mt-4">
+      
+      <div className="flex justify-between items-center text-sm mt-4 border-t pt-4">
         <span className="text-gray-400">
           {new Date(job.dateApplied).toLocaleDateString()}
         </span>
-        <button 
-          onClick={() => onDelete(job.id)}
-          className="text-red-400 hover:text-red-600 font-medium"
-        >
-          Delete
-        </button>
+        <div className="flex gap-3">
+          <button 
+            onClick={() => onEdit(job)} 
+            className="text-blue-600 hover:text-blue-800 font-medium"
+          >
+            Edit
+          </button>
+          <button 
+            onClick={() => onDelete(job.id)} 
+            className="text-red-400 hover:text-red-600 font-medium"
+          >
+            Delete
+          </button>
+        </div>
       </div>
     </div>
   );
