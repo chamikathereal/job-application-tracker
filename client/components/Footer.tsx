@@ -1,8 +1,9 @@
 // client/components/Footer.tsx
 import React, { memo } from 'react';
 import { Github, Linkedin, Globe } from 'lucide-react';
-import profileImage from '../images/profile.jpg';
 import Image from "next/image";
+
+import profileImage from '../images/profile.jpg';
 
 
 const Footer = () => {
@@ -13,16 +14,12 @@ const Footer = () => {
                 {/* Developer Info */}
                 <div className="flex items-center gap-4">
                     <div className="h-12 w-12 rounded-full bg-gradient-to-tr from-blue-500 to-purple-600 flex items-center justify-center shadow-lg shrink-0 p-0.5">
-                        {/* Using a placeholder since I don't have your profile image file yet. 
-                            Replace '/profile.jpg' with your actual image path in public folder */}
                         <div className="relative w-full h-full rounded-full overflow-hidden bg-white">
                             <Image
                                 src={profileImage}
                                 alt="Chamika Gayashan"
                                 fill
-                                className="object-cover rounded-full"
-                                sizes="48px"
-                                priority={false}
+                                className="object-cover"
                             />
                         </div>
                     </div>

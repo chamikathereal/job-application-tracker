@@ -7,13 +7,13 @@ import { JobApplication } from "../types";
 import JobCard from "../components/JobCard";
 import Navbar from "../components/Navbar";
 import JobForm from "../components/JobForm";
-import Footer from "../components/Footer"; 
+import Footer from "../components/Footer";
 
 export default function Home() {
   const router = useRouter();
   const [jobs, setJobs] = useState<JobApplication[]>([]);
   const [loading, setLoading] = useState(true);
-  
+
   // State for Form Visibility & Edit Mode
   const [showForm, setShowForm] = useState(false);
   const [editingJob, setEditingJob] = useState<JobApplication | null>(null);
@@ -22,12 +22,10 @@ export default function Home() {
     try {
       const res = await api.get("/jobs");
       setJobs(res.data);
-    } catch (err: any) { // 3️⃣ Handle the Error
+    } catch (err: any) {
       console.error(err);
-      
-      // If server says "403 Forbidden" or "401 Unauthorized"
       if (err.response && (err.response.status === 403 || err.response.status === 401)) {
-        router.push("/login"); // 👋 Kick user to Login page
+        router.push("/login");
       }
     } finally {
       setLoading(false);
@@ -67,17 +65,16 @@ export default function Home() {
   };
 
   return (
-    // 1️⃣ Added 'flex flex-col' so the footer pushes to the bottom
     <div className="min-h-screen bg-gray-50 flex flex-col">
       <Navbar />
-      
+
       {/* 2️⃣ Added 'flex-grow' and 'w-full' to take up available space */}
       <main className="max-w-5xl mx-auto px-6 py-10 flex-grow w-full">
-        
+
         <div className="flex justify-between items-center mb-8">
           <h1 className="text-3xl font-bold text-gray-900">My Applications</h1>
           {!showForm && (
-            <button 
+            <button
               onClick={handleAddNew}
               className="bg-blue-600 text-white px-5 py-2 rounded-md hover:bg-blue-700 transition"
             >
@@ -88,7 +85,7 @@ export default function Home() {
 
         {/* Form Section */}
         {showForm && (
-          <JobForm 
+          <JobForm
             onSaved={handleSaved}
             onCancel={() => setShowForm(false)}
             initialData={editingJob} // Pass data if editing
@@ -101,9 +98,9 @@ export default function Home() {
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {jobs.map((job) => (
-              <JobCard 
-                key={job.id} 
-                job={job} 
+              <JobCard
+                key={job.id}
+                job={job}
                 onDelete={handleDelete}
                 onEdit={handleEdit} // Pass the handler
               />
