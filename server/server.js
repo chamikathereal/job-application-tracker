@@ -33,14 +33,28 @@ const authenticateToken = (req, res, next) => {
 // 1. REGISTER
 app.post('/api/auth/register', async (req, res) => {
   const { email, password, name } = req.body;
+  
   try {
+    // 1. Check if user exists BEFORE trying to create
+    const existingUser = await prisma.user.findUnique({ 
+      where: { email } 
+    });
+
+    if (existingUser) {
+      return res.status(400).json({ error: "Email already exists" });
+    }
+
+    // 2. If no user, proceed to create
     const hashedPassword = await bcrypt.hash(password, 10);
     const user = await prisma.user.create({
       data: { email, password: hashedPassword, name }
     });
+    
     res.json({ message: "User created successfully" });
+
   } catch (error) {
-    res.status(400).json({ error: "Email already exists" });
+    console.error("Registration Error:", error); // Log the REAL error to console
+    res.status(500).json({ error: "Something went wrong during registration" });
   }
 });
 

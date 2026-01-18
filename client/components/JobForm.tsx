@@ -61,7 +61,7 @@ export default function JobForm({ onSaved, onCancel, initialData }: JobFormProps
           <input
             type="text"
             required
-            className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
+            className="w-full p-2 border border-gray-300 text-gray-400 rounded-md focus:ring-2 focus:ring-blue-500"
             value={formData.company}
             onChange={(e) => setFormData({ ...formData, company: e.target.value })}
           />
@@ -72,7 +72,7 @@ export default function JobForm({ onSaved, onCancel, initialData }: JobFormProps
           <input
             type="text"
             required
-            className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
+            className="w-full p-2 border border-gray-300 text-gray-400 rounded-md focus:ring-2 focus:ring-blue-500"
             value={formData.position}
             onChange={(e) => setFormData({ ...formData, position: e.target.value })}
           />
@@ -81,7 +81,7 @@ export default function JobForm({ onSaved, onCancel, initialData }: JobFormProps
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-1">Status</label>
           <select
-            className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
+            className="w-full p-2 border border-gray-300 text-gray-400 rounded-md focus:ring-2 focus:ring-blue-500"
             value={formData.status}
             onChange={(e) => setFormData({ ...formData, status: e.target.value })}
           >
